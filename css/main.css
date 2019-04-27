@@ -18,36 +18,41 @@ body * {
 	font-family: IBM;
 }
 
-h1 {
+body > h1 {
 	font-size: 2.4rem;
 	color: #000;
 	text-align: center;
 	margin-top: 1.2rem;
 }
 
-ul {
-	margin: 2.4rem 2.4rem;
-}
-
-li {
-	font-size: 1.6rem;
-}
-
-a {
-	color: #ccc;
-	text-decoration: none;
-}
-
-a:hover {
-	text-shadow: 2px 2px #555;
-}
-
 #wrapper {
-	margin-top: 1.2rem;
+	min-width: 100vw;
+	min-height: 100vh;
+	background: #66e;
+	perspective: 200px;
+	overflow: hidden;
 }
 
-canvas {
-	border: 2px solid #aaa;
-	display: block;
-	margin: 0 auto;
+#table {
+	width: 100vw;
+	height: 100vh;
+	background: #6aa;
+	transform-style: preserve-3d;
+	transform: rotateX(15deg);
+}
+
+.card {
+	position: absolute;
+	top: 50px;
+	left: 50px;
+}
+
+.card > div {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.card img {
+	width: 100px;
 }
