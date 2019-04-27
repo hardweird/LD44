@@ -29,7 +29,7 @@ body > h1 {
 	min-width: 100vw;
 	min-height: 100vh;
 	background: #66e;
-	perspective: 200px;
+	perspective: 300px;
 	overflow: hidden;
 }
 
@@ -38,7 +38,7 @@ body > h1 {
 	height: 100vh;
 	background: #6aa;
 	transform-style: preserve-3d;
-	transform: rotateX(15deg);
+	transform: rotateX(30deg);
 }
 
 .card {
@@ -47,7 +47,10 @@ body > h1 {
 	left: 50px;
 }
 
-.card > div {
+.card:hover {
+}
+
+.card > .img {
 	position: absolute;
 	top: 0;
 	left: 0;
