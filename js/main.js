@@ -13,34 +13,42 @@ let table;
 let preview;
 
 function fill_decks() {
-	let pd = [], od = [];
+	let pd = [];
 	for (let i = 0; i < FREQ_FISH; ++i) {
 		pd.push(new Card(CARD_TYPE_CREATURE, 'fish'));
-		od.push(new Card(CARD_TYPE_CREATURE, 'fish'));
 	}
 	for (let i = 0; i < FREQ_SHRIMP; ++i) {
 		pd.push(new Card(CARD_TYPE_CREATURE, 'shrimp'));
-		od.push(new Card(CARD_TYPE_CREATURE, 'shrimp'));
 	}
 	for (let i = 0; i < FREQ_PRAWN; ++i) {
 		pd.push(new Card(CARD_TYPE_CREATURE, 'prawn'));
-		od.push(new Card(CARD_TYPE_CREATURE, 'prawn'));
 	}
 	for (let i = 0; i < FREQ_CRAB; ++i) {
 		pd.push(new Card(CARD_TYPE_CREATURE, 'crab'));
-		od.push(new Card(CARD_TYPE_CREATURE, 'crab'));
 	}
 	for (let i = 0; i < FREQ_SHARK; ++i) {
 		pd.push(new Card(CARD_TYPE_CREATURE, 'shark'));
-		od.push(new Card(CARD_TYPE_CREATURE, 'shark'));
 	}
 	for (let i = 0; i < FREQ_NARWHAL; ++i) {
 		pd.push(new Card(CARD_TYPE_CREATURE, 'narwhal'));
-		od.push(new Card(CARD_TYPE_CREATURE, 'narwhal'));
+	}
+	for (let i = 0; i < FREQ_SWAP; ++i) {
+		pd.push(new Card(CARD_TYPE_ACTION, 'swap'));
+	}
+	for (let i = 0; i < FREQ_RETREAT; ++i) {
+		pd.push(new Card(CARD_TYPE_ACTION, 'retreat'));
+	}
+	for (let i = 0; i < FREQ_STADIUM; ++i) {
+		pd.push(new Card(CARD_TYPE_STADIUM, 'fish'));
+		pd.push(new Card(CARD_TYPE_STADIUM, 'shrimp'));
+		pd.push(new Card(CARD_TYPE_STADIUM, 'prawn'));
+		pd.push(new Card(CARD_TYPE_STADIUM, 'shark'));
+		pd.push(new Card(CARD_TYPE_STADIUM, 'crab'));
+		pd.push(new Card(CARD_TYPE_STADIUM, 'narwhal'));
 	}
 	// TODO actions and stadium
 	cards.player.deck = _.shuffle(pd);
-	cards.opponent.deck = _.shuffle(od);
+	cards.opponent.deck = _.shuffle(pd);
 }
 
 function deal() {
@@ -114,25 +122,8 @@ function init() {
 			shads.player[i].style.top = `${h-50}px`;
 			shads.opponent[i].style.left = `${x}px`;
 			shads.opponent[i].style.top = `${h-200}px`;
-			if (cards.player.field[i]) {
-				cards.player.field[i].mv(x, h-50);
-			}
-			if (cards.opponent.field[i]) {
-				cards.opponent.field[i].mv(x, h-200);
-			}
 		}
-		if (cards.player.deck.length > 0) {
-			cards.player._deck_back.mv(w+1.5*CARD_SPAN, h+150);
-		}
-		if (cards.opponent.deck.length > 0) {
-			cards.opponent._deck_back.mv(w-3.5*CARD_SPAN, h-300);
-		}
-		if (cards.player.pile.length > 0) {
-			last(cards.player.pile).mv(w+2.5*CARD_SPAN, h+150);
-		}
-		if (cards.opponent.pile.length > 0) {
-			last(cards.opponent.pile).mv(w-4.5*CARD_SPAN, h-300);
-		}
+		machine._update();
 		//cards.stadium.mv(w-3.5*CARD_SPAN, h-125);
 	});
 }

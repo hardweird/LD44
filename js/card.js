@@ -33,10 +33,10 @@ class Card {
 			add_layer('img/card_back.png');
 		} else if (this.type === CARD_TYPE_ACTION) {
 			add_layer('img/card_action_bg.png');
-			add_layer(`img/card_action_${this.name}`);
+			add_layer(`img/card_action_${this.name}.png`);
 		} else if (this.type === CARD_TYPE_STADIUM) {
-			// TODO replace the placeholder
-			add_layer('img/card_bg.png');
+			add_layer('img/card_action_bg.png');
+			add_layer(`img/card_stad_${this.name}.png`);
 		}
 
 		card.addEventListener('pointerenter', (e) => {
@@ -50,18 +50,16 @@ class Card {
 		});
 
 		card.addEventListener('click', (e) => {
-			machine.choose_card(this);
+			if (cards.player.hand.includes(this)) {
+				machine.choose_card(this);
+			} else if (cards.player.field.includes(this)) {
+				machine.pick_card(this);
+			}
 		});
 
 		return card;
 	}
 	spawn(parent, x, y, down) {
-		this.elem.style.left = `${parseInt(x, 10)}px`;
-		if (down) {
-			this.elem.style.bottom = `${parseInt(y, 10)}px`;
-		} else {
-			this.elem.style.top = `${parseInt(y, 10)}px`;
-		}
 		parent.appendChild(this.elem);
 		this.spawned = true;
 	}

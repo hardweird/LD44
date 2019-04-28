@@ -24,6 +24,12 @@ class Preview {
 		add_layer('face_shark');
 		add_layer('face_shrimp');
 		add_layer('face_fish');
+		add_layer('stad_narwhal');
+		add_layer('stad_crab');
+		add_layer('stad_prawn');
+		add_layer('stad_shark');
+		add_layer('stad_shrimp');
+		add_layer('stad_fish');
 		// TODO add text layer
 		add_layer('hp');
 		add_layer('pow');
@@ -46,6 +52,10 @@ class Preview {
 		} else if (card.type === CARD_TYPE_ACTION) {
 			this.sl('action_bg');
 			this.sl(`action_${card.name}`);
+		} else if (card.type === CARD_TYPE_STADIUM) {
+			this.sl('action_bg');
+			this.sl(`stad_${card.name}`);
+			// TODO show text layer
 		}
 	}
 }
