@@ -45,16 +45,24 @@ class Card {
 
 		return card;
 	}
-	spawn(parent, x, y) {
+	spawn(parent, x, y, down) {
 		this.elem.style.left = `${x}px`;
-		this.elem.style.top = `${y}px`;
+		if (down) {
+			this.elem.style.bottom = `${y}px`;
+		} else {
+			this.elem.style.top = `${y}px`;
+		}
 		parent.appendChild(this.elem);
 	}
-	despawn(x, y) {
+	despawn() {
 		this.elem.parent(removeChild(this.elem));
 	}
-	mv(x, y) {
+	mv(x, y, down) {
 		this.elem.style.left = `${x}px`;
-		this.elem.style.top = `${y}px`;
+		if (down) {
+			this.elem.style.bottom = `${y}px`;
+		} else {
+			this.elem.style.top = `${y}px`;
+		}
 	}
 }

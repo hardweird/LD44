@@ -29,9 +29,23 @@ function init() {
 	];
 	cards.player.deck_push(new Card(CARD_TYPE_CREATURE, 'prawn'));
 	cards.opponent.deck_push(new Card(CARD_TYPE_CREATURE, 'shrimp'));
-	cards.player.pile_push(new Card(CARD_TYPE_CREATURE, 'shark'));
+	cards.player.pile_push(new Card(CARD_TYPE_CREATURE, 'crab'));
 	cards.opponent.pile_push(new Card(CARD_TYPE_CREATURE, 'fish'));
 	cards.stadium = new Card(CARD_TYPE_STADIUM);
+	cards.player.hand = [
+		new Card(CARD_TYPE_CREATURE, 'crab'),
+		new Card(CARD_TYPE_CREATURE, 'crab'),
+		new Card(CARD_TYPE_CREATURE, 'crab'),
+		new Card(CARD_TYPE_CREATURE, 'crab'),
+		new Card(CARD_TYPE_CREATURE, 'crab'),
+	];
+	{
+		let hand = cards.player.hand;
+		let div = document.getElementById('hand');
+		for (let i in hand) {
+			hand[i].spawn(div, i*50, 0);
+		}
+	}
 
 	/* spawn some cards for testing purposes */
 	const h = table.offsetHeight/2;
