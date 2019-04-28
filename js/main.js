@@ -5,6 +5,10 @@ let cards = {
 	opponent: null,
 	stadium: null
 };
+let shads = {
+	player: [],
+	opponent: []
+};
 let table;
 let preview;
 
@@ -55,8 +59,11 @@ function init() {
 	const w = table.offsetWidth/2;
 	for (let i in cards.player.field) {
 		const x = w-2*CARD_SPAN + i*CARD_SPAN;
-		cards.player.field[i].spawn(table, x, h-200);
-		cards.opponent.field[i].spawn(table, x, h-50);
+		shads.player.push(shadow(table, x, h-200));
+		shads.opponent.push(shadow(table, x, h-50));
+		//cards.player.field[i].spawn(table, x, h-200);
+		//cards.opponent.field[i].spawn(table, x, h-50);
+		
 	}
 	if (cards.player.deck.length > 0) {
 		cards.player._deck_back.spawn(table, w+1.5*CARD_SPAN, h+150);
@@ -76,10 +83,15 @@ function init() {
 	window.addEventListener('resize', (e) => {
 		const h = table.offsetHeight/2;
 		const w = table.offsetWidth/2;
-		for (let i in cards.player.field) {
+		for (let i in shads.player) {
 			const x = w-2*CARD_SPAN + i*CARD_SPAN;
-			cards.player.field[i].mv(x, h-200);
-			cards.opponent.field[i].mv(x, h-50);
+			// TODO shadows
+			shads.player[i].style.left = `${x}px`;
+			shads.player[i].style.top = `${h-200}px`;
+			shads.opponent[i].style.left = `${x}px`;
+			shads.opponent[i].style.top = `${h-50}px`;
+			//cards.player.field[i].mv(x, h-200);
+			//cards.opponent.field[i].mv(x, h-50);
 		}
 		if (cards.player.deck.length > 0) {
 			cards.player._deck_back.mv(w+1.5*CARD_SPAN, h+150);
