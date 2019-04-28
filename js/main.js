@@ -9,6 +9,7 @@ let shads = {
 	player: [],
 	opponent: []
 };
+let hp = { player: 48, opponent: 48 };
 let table;
 let preview;
 
@@ -38,14 +39,14 @@ function fill_decks() {
 	for (let i = 0; i < FREQ_RETREAT; ++i) {
 		pd.push(new Card(CARD_TYPE_ACTION, 'retreat'));
 	}
-	for (let i = 0; i < FREQ_STADIUM; ++i) {
+	/*for (let i = 0; i < FREQ_STADIUM; ++i) {
 		pd.push(new Card(CARD_TYPE_STADIUM, 'fish'));
 		pd.push(new Card(CARD_TYPE_STADIUM, 'shrimp'));
 		pd.push(new Card(CARD_TYPE_STADIUM, 'prawn'));
 		pd.push(new Card(CARD_TYPE_STADIUM, 'shark'));
 		pd.push(new Card(CARD_TYPE_STADIUM, 'crab'));
 		pd.push(new Card(CARD_TYPE_STADIUM, 'narwhal'));
-	}
+	}*/
 	// TODO actions and stadium
 	cards.player.deck = _.shuffle(pd);
 	cards.opponent.deck = _.shuffle(pd);
@@ -104,13 +105,11 @@ function init() {
 	if (cards.opponent.deck.length > 0) {
 		cards.opponent._deck_back.spawn(table, w-3.5*CARD_SPAN, h-300);
 	}
-	if (cards.player.pile.length > 0) {
-		last(cards.player.pile).spawn(table, w+2.5*CARD_SPAN, h+150);
-	}
-	if (cards.opponent.pile.length > 0) {
-		last(cards.opponent.pile).spawn(table, w-4.5*CARD_SPAN, h-300);
-	}
 	//cards.stadium.spawn(table, w-3.5*CARD_SPAN, h-125);
+	
+	document.getElementById('pass').addEventListener('click', (e) => {
+		machine.pass();
+	});
 
 	/* should move all the things on resize */
 	window.addEventListener('resize', (e) => {

@@ -9,6 +9,7 @@ class Card {
 		this.name = name || '';
 		this.elem = this.mk_elem();
 		this.spawned = false;
+		this.hp = 0;
 	}
 	mk_elem() {
 		let card = document.createElement('div');
@@ -29,6 +30,8 @@ class Card {
 			add_layer(`img/card_face_${this.name}.png`);
 			add_layer('img/card_pow.png');
 			add_layer('img/card_hp.png');
+			this.hp = HEALTH[this.name];
+			// TODO text layer for hp and pow
 		} else if (this.type === CARD_TYPE_BACK) {
 			add_layer('img/card_back.png');
 		} else if (this.type === CARD_TYPE_ACTION) {

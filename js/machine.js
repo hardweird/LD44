@@ -2,7 +2,11 @@ const STATE_IDLE = 0;
 const STATE_PLAYER_TURN = 1;
 const STATE_SWAPPING = 2;
 const STATE_RETREATING = 3;
-const STATE_OPP_TURN = 8;
+const STATE_FIGHT = 4;
+const STATE_OPP_TURN = 5;
+
+const PT = 0;
+const OT = 1;
 
 class Machine {
 	constructor() {
@@ -102,23 +106,85 @@ class Machine {
 		}
 		// TODO play animation when retreating
 	}
-	_swap(idx, card) {
-		cards.player.field[idx] = cards.player.field[this.to_swap];
-		cards.player.field[this.to_swap] = card;
-		this.to_swap = -1;
-		this.card_hold.despawn();
-		cards.player.hand = _.without(cards.player.hand, this.card_hold);
-		cards.player.pile.push(this.card_hold);
-		this._update();
-		this.state = STATE_PLAYER_TURN;
-		this.acted = true;
-		this.card_hold = null;
+	pass(event) {
+		if (this.state !== STATE_PLAYER_TURN) {
+			console.log(`won't pass in state ${this.state}`);
+			return;
+		}
+		this.state = STATE_FIGHT;
+		this._fight(PT);
 	}
 	_player_turn_start() {
 		cards.player.hand.push(cards.player.deck.pop());
 		this.turn_advanced = false;
 		this.turn_acted = false;
 		this._update();
+	}
+	_fight(t) {
+		// TODO only one beast per turn, man!
+		let ord = t === PT ? ['player', 'opponent'] : ['opponent', 'player'];
+
+		for (let o = 0; o < ord.length; ++o) {
+			let atkr = ord[o];
+			let dfnr = ord[o === 0 ? 1 : 0];
+			console.log(atkr, dfnr);
+
+			for (let i in cards[atkr].field) {
+				if (!cards[atkr].field[i]) continue;
+
+				let offender = cards[atkr].field[i];
+				if (offender.name === 'crab') {
+					let defenders = [cards[dfnr].field[i-1], cards[dfnr].field[i+1]];
+					for (let d in defenders) {
+						if (!defenders[d]) continue;
+						defenders[d].hp -= POW[offender.name];
+					}
+				} else {
+					let defender = cards[dfnr].field[i];
+					if (defender === null) {
+						hp[dfnr] -= POW[offender.name]
+					} else {
+						defender.hp -= POW[offender.name];
+						if (offender.name === 'narwhal') {
+							hp[dfnr] -= POW[offender.name]/2 | 0;
+						} else if (offender.name === 'shrimp' && defender.name === 'prawn'
+							|| offender.name === 'prawn' && defender.name === 'shrimp') {
+							defender.hp -= POW[offender.name];
+						}
+					}
+				}
+			}
+		}
+
+		// TODO count
+		this._update();
+
+		if (t === PT) {
+			this.state = STATE_OPP_TURN;
+			this._opponent_turn_start();
+		} else {
+			this.state = STATE_PLAYER_TURN;
+			this._player_turn_start();
+		}
+	}
+	_opponent_turn_start() {
+		// draw a card
+		cards.opponent.hand.push(cards.opponent.deck.pop());
+		// advance some creatures
+		let creatures = cards.opponent.hand.filter((c) => c.type === CARD_TYPE_CREATURE);
+		if (creatures.length > 0) {
+			creatures = _.shuffle(creatures);
+			for (let i in cards.opponent.field) {
+				if (cards.opponent.field[i] || (roll(6) === 1)) continue;
+				let beast = creatures.pop();
+				cards.opponent.field[i] = beast;
+				cards.opponent.hand = _.without(cards.opponent.hand, beast);
+			}
+		}
+		this._update();
+
+		this.state = STATE_FIGHT;
+		this._fight(OT);
 	}
 	_update() {
 		const h = table.offsetHeight/2;
@@ -166,5 +232,17 @@ class Machine {
 			if (!l.spawned) l.spawn(table);
 			l.mv(w-4.5*CARD_SPAN, h-300);
 		}
+	}
+	_swap(idx, card) {
+		cards.player.field[idx] = cards.player.field[this.to_swap];
+		cards.player.field[this.to_swap] = card;
+		this.to_swap = -1;
+		this.card_hold.despawn();
+		cards.player.hand = _.without(cards.player.hand, this.card_hold);
+		cards.player.pile.push(this.card_hold);
+		this._update();
+		this.state = STATE_PLAYER_TURN;
+		this.acted = true;
+		this.card_hold = null;
 	}
 }
