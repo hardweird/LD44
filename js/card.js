@@ -8,6 +8,7 @@ class Card {
 		this.type = type;
 		this.name = name || '';
 		this.elem = this.mk_elem();
+		this.spawned = false;
 	}
 	mk_elem() {
 		let card = document.createElement('div');
@@ -48,19 +49,25 @@ class Card {
 			preview.hide();
 		});
 
+		card.addEventListener('click', (e) => {
+			machine.choose_card(this);
+		});
+
 		return card;
 	}
 	spawn(parent, x, y, down) {
-		this.elem.style.left = `${x}px`;
+		this.elem.style.left = `${parseInt(x, 10)}px`;
 		if (down) {
-			this.elem.style.bottom = `${y}px`;
+			this.elem.style.bottom = `${parseInt(y, 10)}px`;
 		} else {
-			this.elem.style.top = `${y}px`;
+			this.elem.style.top = `${parseInt(y, 10)}px`;
 		}
 		parent.appendChild(this.elem);
+		this.spawned = true;
 	}
 	despawn() {
-		this.elem.parent(removeChild(this.elem));
+		this.elem.parentElement.removeChild(this.elem);
+		this.spawned = false;
 	}
 	mv(x, y, down) {
 		this.elem.style.left = `${x}px`;

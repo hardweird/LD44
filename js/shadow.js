@@ -1,4 +1,4 @@
-function shadow(parent, x, y, cb) {
+function shadow(parent, x, y, i, cb) {
 	let shad = document.createElement('div');
 	let div = document.createElement('div');
 	let img = document.createElement('img');
@@ -9,7 +9,8 @@ function shadow(parent, x, y, cb) {
 	shad.classList.add('shadow');
 	shad.style.left = `${x}px`;
 	shad.style.top = `${y}px`;
-	if (cb) shad.addEventListener('click', cb);
+	shad.dataset.i = i;
+	if (cb) shad.addEventListener('click', (e) => { cb(shad, e); });
 	parent.appendChild(shad);
 	return shad;
 }
