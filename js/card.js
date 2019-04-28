@@ -30,6 +30,9 @@ class Card {
 			add_layer('img/card_hp.png');
 		} else if (this.type === CARD_TYPE_BACK) {
 			add_layer('img/card_back.png');
+		} else if (this.type === CARD_TYPE_ACTION) {
+			add_layer('img/card_action_bg.png');
+			add_layer(`img/card_action_${this.name}`);
 		} else if (this.type === CARD_TYPE_STADIUM) {
 			// TODO replace the placeholder
 			add_layer('img/card_bg.png');
@@ -37,10 +40,12 @@ class Card {
 
 		card.addEventListener('pointerenter', (e) => {
 			e.target.children[0].children[0].style.boxShadow = '2px 2px 14px white';
+			preview.show(this);
 		});
 
 		card.addEventListener('pointerleave', (e) => {
 			e.target.children[0].children[0].style.boxShadow = '';
+			preview.hide();
 		});
 
 		return card;

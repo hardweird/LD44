@@ -45,11 +45,6 @@ body > h1 {
 
 .card {
 	position: absolute;
-	/*top: 50px;*/
-	/*left: 50px;*/
-}
-
-.card:hover {
 }
 
 .card > .img {
@@ -72,9 +67,24 @@ body > h1 {
 
 #hand {
 	width: 50vw;
-	height: 25vh;
+	height: 20rem;
 	overflow: hidden;
 	position: absolute;
 	bottom: 0;
 	left: 2rem;;
+}
+
+#hand .card img {
+	width: 125px
+}
+
+#preview {
+	position: absolute;
+	top: 4rem;
+	right: 31rem;
+}
+
+#preview img {
+	position: absolute;
+	width: 275px;
 }

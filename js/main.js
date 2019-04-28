@@ -5,14 +5,15 @@ let cards = {
 	opponent: null,
 	stadium: null
 };
-
 let table;
+let preview;
 
 function init() {
 	table = document.getElementById('table');
 
 	cards.player = new Set();
 	cards.opponent = new Set();
+	preview = new Preview(document.getElementById('preview'));
 
 	/* testing positions */
 	cards.player.field = [
@@ -39,15 +40,17 @@ function init() {
 		new Card(CARD_TYPE_CREATURE, 'crab'),
 		new Card(CARD_TYPE_CREATURE, 'crab'),
 	];
+	//preview.show(CARD_TYPE_CREATURE, 'narwhal');
+
+	/* spawn some cards for testing purposes */
 	{
+		// TODO rotate hand's cards
 		let hand = cards.player.hand;
 		let div = document.getElementById('hand');
 		for (let i in hand) {
-			hand[i].spawn(div, i*50, 0);
+			hand[i].spawn(div, i*70, 0);
 		}
 	}
-
-	/* spawn some cards for testing purposes */
 	const h = table.offsetHeight/2;
 	const w = table.offsetWidth/2;
 	for (let i in cards.player.field) {
