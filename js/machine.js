@@ -26,6 +26,11 @@ class Machine {
 		this._player_turn_start();
 	}
 	choose_card(card) {
+		if (this.card_hold === card) {
+			this._unhold();
+			this.state = STATE_PLAYER_TURN;
+			return;
+		}
 		if (this.state !== STATE_PLAYER_TURN) return;
 		if (card.type === CARD_TYPE_CREATURE && this.turn_advanced) {
 			console.log('already advanced');
@@ -38,25 +43,19 @@ class Machine {
 			//return;
 		}
 
-		if (this.card_hold === card) {
-			this.card_hold = null;
-			this.state = STATE_PLAYER_TURN;
-			return;
-		}
 		if (card.type === CARD_TYPE_CREATURE) {
 			// TODO animate shadows
-			// TODO move card up a bit
-			this.card_hold = card;
+			this._hold(card);
 		}
 		if (card.type === CARD_TYPE_ACTION) {
 			if (card.name === 'swap') {
 				// TODO animate field
 				this.to_swap = -1;
 				this.state = STATE_SWAPPING;
-				this.card_hold = card;
+				this._hold(card);
 			} else if (card.name === 'retreat') {
 				this.state = STATE_RETREATING;
-				this.card_hold = card;
+				this._hold(card);
 			}
 		}
 	}
@@ -80,7 +79,7 @@ class Machine {
 			this._update();
 			this.state = STATE_PLAYER_TURN;
 			this.acted = true;
-			this.card_hold = null;
+			this._unhold();
 		}
 	}
 	choose_shadow(shad) {
@@ -93,7 +92,7 @@ class Machine {
 			cards.player.field[i] = this.card_hold;
 			cards.player.hand = _.without(cards.player.hand, this.card_hold);
 			this.card_hold.spawn(table, 0, 0);
-			this.card_hold = null;
+			this._unhold();
 			this.turn_advanced = true;
 			this._update();
 		} else if (this.state === STATE_SWAPPING) {
@@ -204,7 +203,9 @@ class Machine {
 			if (!cards.player.hand[i].spawned) {
 				cards.player.hand[i].spawn(hand);
 			}
-			cards.player.hand[i].mv(i*70, 0);
+			cards.player.hand[i].mv(i*70,
+				(cards.player.hand[i].elem.classList.contains('hold'))
+				? -13 : 0);
 			cards.player.hand[i].update_stats();
 		}
 		// field
@@ -258,6 +259,18 @@ class Machine {
 		this._update();
 		this.state = STATE_PLAYER_TURN;
 		this.acted = true;
+		this._unhold();
+	}
+	_hold(card) {
+		if (this.card_hold) this._unhold();
+		this.card_hold = card;
+		//this.card_hold.elem.style.top = '-16px';
+		this.card_hold.elem.classList.add('hold');
+		this._update();
+	}
+	_unhold() {
+		this.card_hold.elem.classList.remove('hold');
 		this.card_hold = null;
+		this._update();
 	}
 }

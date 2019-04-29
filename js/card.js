@@ -74,12 +74,12 @@ class Card {
 		}
 
 		card.addEventListener('pointerenter', (e) => {
-			e.target.children[0].children[0].style.boxShadow = '2px 2px 14px white';
+			//e.target.children[0].children[0].style.boxShadow = '2px 2px 14px #fff';
 			preview.show(this);
 		});
 
 		card.addEventListener('pointerleave', (e) => {
-			e.target.children[0].children[0].style.boxShadow = '';
+			//e.target.children[0].children[0].style.boxShadow = '2px 2px 14px #000';
 			preview.hide();
 		});
 

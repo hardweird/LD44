@@ -56,6 +56,14 @@ body > h1 {
 	left: 0;
 }
 
+#hand .img:first-child {
+	box-shadow: 2px 2px 14px #000;
+}
+
+#hand .card:hover .img:first-child {
+	box-shadow: 2px 2px 14px #fff;
+}
+
 .card img, .shadow img{
 	width: 100px;
 }
@@ -173,6 +181,10 @@ body > h1 {
 }
 
 #p2-shell {
-	right: 0;	
+	right: 0;
 	text-shadow: -2px -2px 0 #00f, 2px -2px 0 #00f, -2px 2px 0 #00f, 2px 2px 0 #00f;
+}
+
+.card .hold {
+	top: -16px!important;
 }
