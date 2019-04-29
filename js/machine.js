@@ -127,9 +127,9 @@ class Machine {
 		for (let o = 0; o < ord.length; ++o) {
 			let atkr = ord[o];
 			let dfnr = ord[o === 0 ? 1 : 0];
-			console.log(atkr, dfnr);
+			let log = [];
 
-			for (let i in cards[atkr].field) {
+			for (let i = 0; i < cards[atkr].field.length; ++i) {
 				if (!cards[atkr].field[i]) continue;
 
 				let offender = cards[atkr].field[i];
@@ -155,7 +155,7 @@ class Machine {
 				}
 			}
 			// clean up
-			for (let i in cards[dfnr].field) {
+			for (let i = 0; i < cards[dfnr].field.length; ++i) {
 				let card = cards[dfnr].field[i];
 				if (!card) continue;
 				if (card.hp <= 0) {
@@ -175,6 +175,9 @@ class Machine {
 			this.state = STATE_PLAYER_TURN;
 			this._player_turn_start();
 		}
+	}
+	_log(attacker, defender, kill) {
+		return {a: attacker, d: defender, k: kill};
 	}
 	_opponent_turn_start() {
 		// draw a card
