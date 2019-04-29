@@ -244,6 +244,9 @@ class Machine {
 			if (!l.spawned) l.spawn(table);
 			l.mv(w-4.5*CARD_SPAN, h-300);
 		}
+		// health points
+		hp_shell.player.innerText = `${hp.player}`;
+		hp_shell.opponent.innerText = `${hp.opponent}`;
 	}
 	_swap(idx, card) {
 		cards.player.field[idx] = cards.player.field[this.to_swap];

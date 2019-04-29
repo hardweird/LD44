@@ -150,3 +150,29 @@ body > h1 {
 
 #preview .pow { left: 1.7rem; }
 #preview .hp { left: 23rem; }
+
+.shell {
+	position: absolute;
+	top: 0;
+	background-image: url(../img/shell.png);
+	background-size: 10rem;
+	min-width: 10rem;
+	min-height: 10rem;
+	width: 10rem;
+	height: 10rem;
+	line-height: 10rem;
+	text-align: center;
+	font-size: 3.8rem;
+	overflow: hidden;
+	color: #fff;
+}
+
+#p1-shell {
+	left: 0;	
+	text-shadow: -2px -2px 0 #f00, 2px -2px 0 #f00, -2px 2px 0 #f00, 2px 2px 0 #f00;
+}
+
+#p2-shell {
+	right: 0;	
+	text-shadow: -2px -2px 0 #00f, 2px -2px 0 #00f, -2px 2px 0 #00f, 2px 2px 0 #00f;
+}

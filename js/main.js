@@ -10,6 +10,7 @@ let shads = {
 	opponent: []
 };
 let hp = { player: 48, opponent: 48 };
+let hp_shell = {player: null, opponent: null};
 let table;
 let preview;
 
@@ -101,6 +102,8 @@ function track_card(card) {
 
 function init() {
 	table = document.getElementById('table');
+	hp_shell.player = document.getElementById('p1-shell');
+	hp_shell.opponent = document.getElementById('p2-shell');
 
 	cards.player = new Set();
 	cards.opponent = new Set();
