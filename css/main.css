@@ -140,7 +140,7 @@ body > h1 {
 }
 
 #pass-div > span:hover {
-	text-shadow: 2px 2px #333;
+	text-shadow: 2px 2px 14px #aaa;
 }
 
 #hand .pow, #hand .hp {
@@ -234,14 +234,30 @@ body > h1 {
 	pointer-events: none;
 }
 
-#p1-shell {
+#p1-shell, #you {
 	left: 0;	
-	text-shadow: -2px -2px 0 #f00, 2px -2px 0 #f00, -2px 2px 0 #f00, 2px 2px 0 #f00;
+	text-shadow: -1px -1px 0 #f00, 1px -1px 0 #f00, -1px 1px 0 #f00, 1px 1px 0 #f00;
+}
+#p1-shell.current, #you.current {
+	text-shadow: -2px -2px 0 #f00, 2px -2px 0 #f00, -2px 2px 0 #f00, 2px 2px 0 #f00, 0 0 10px #f00;
 }
 
-#p2-shell {
+#p2-shell, #bob {
 	right: 0;
-	text-shadow: -2px -2px 0 #00f, 2px -2px 0 #00f, -2px 2px 0 #00f, 2px 2px 0 #00f;
+	text-shadow: -1px -1px 0 #00f, 1px -1px 0 #00f, -1px 1px 0 #00f, 1px 1px 0 #00f;
+}
+#p2-shell.current, #bob.current {
+	text-shadow: -2px -2px 0 #00f, 2px -2px 0 #00f, -2px 2px 0 #00f, 2px 2px 0 #00f, 0 0 5px #00f;
+}
+
+#you, #bob {
+	position: absolute;
+	top: 9rem;
+	text-align: center;
+	font-size: 2.8rem;
+	color: #fff;
+	pointer-events: none;
+	width: 10rem;
 }
 
 .card .hold {

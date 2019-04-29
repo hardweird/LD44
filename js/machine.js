@@ -295,6 +295,17 @@ class Machine {
 		// health points
 		hp_shell.player.innerText = `${hp.player}`;
 		hp_shell.opponent.innerText = `${hp.opponent}`;
+		// turn
+		if (this.state === STATE_OPP_TURN) {
+			indicators.opponent.forEach((e) => { e.classList.add('current') });
+			indicators.player.forEach((e) => { e.classList.remove('current') });
+		} else if (this.state === STATE_FIGHT) {
+			indicators.opponent.forEach((e) => { e.classList.add('current') });
+			indicators.player.forEach((e) => { e.classList.add('current') });
+		} else {
+			indicators.player.forEach((e) => { e.classList.add('current') });
+			indicators.opponent.forEach((e) => { e.classList.remove('current') });
+		}
 	}
 	_swap(idx, card) {
 		cards.player.field[idx] = cards.player.field[this.to_swap];

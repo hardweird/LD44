@@ -14,6 +14,7 @@ let hp_shell = {player: null, opponent: null};
 let table;
 let preview;
 let animator;
+let indicators = { player: null, opponent: null };
 
 function fill_decks() {
 	let pd = [], od = [];
@@ -105,6 +106,8 @@ function init() {
 	table = document.getElementById('table');
 	hp_shell.player = document.getElementById('p1-shell');
 	hp_shell.opponent = document.getElementById('p2-shell');
+	indicators.player = document.querySelectorAll('#p1-shell, #you');
+	indicators.opponent = document.querySelectorAll('#p2-shell, #bob');
 
 	cards.player = new Set();
 	cards.opponent = new Set();
