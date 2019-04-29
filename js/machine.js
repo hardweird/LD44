@@ -22,6 +22,13 @@ class Machine {
 			console.warn(`can't start a game when state is ${this.state}`);
 			return;
 		}
+
+		indicators.player.forEach((e) => { e.classList.remove('hidden') });
+		indicators.opponent.forEach((e) => { e.classList.remove('hidden') });
+		document.getElementById('pass').classList.remove('hidden');
+		table.classList.remove('empty');
+		document.getElementById('start').classList.add('hidden');
+
 		this.state = STATE_PLAYER_TURN;
 		this._player_turn_start();
 	}

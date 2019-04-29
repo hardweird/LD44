@@ -42,9 +42,65 @@ body > h1 {
 	margin-top: 1.2rem;
 }
 
+.hidden {
+	display: none;
+}
+
+#table.empty * {
+	display: none;
+}
+
+.screen {
+	position: absolute;
+	left: 0;
+	top: 0;
+	min-width: 100vw;
+	min-height: 100vh;
+	background: #29464b66;
+}
+
+.narrative {
+	width: 70vw;
+	min-width: 50rem;
+	margin-top: 10rem;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 2.4rem;
+	color: #aaa;
+	line-height: 2.6rem;
+	/*text-decoration: italic;*/
+}
+
+.narrative i {
+	color: #fff;
+}
+
+#start-btn {
+	margin-top: 5rem;
+	display: block;
+	text-align: center;
+	color: #fff;
+	font-size: 2.4rem;
+	cursor: pointer;
+}
+
+#start-btn:hover {
+	text-shadow: 3px 3px 2px #aaa;
+}
+
+#logo {
+	position: static;
+	margin-top: 1rem;
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+}
+
 #wrapper {
 	min-width: 100vw;
 	min-height: 100vh;
+	width: 100vw;
+	height: 100vh;
 	background: #6aa;
 	perspective: 300px;
 	overflow: hidden;

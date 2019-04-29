@@ -150,8 +150,13 @@ function init() {
 		e.addEventListener('animationend', cb);
 	});
 
+	document.getElementById('start-btn').addEventListener('click', (e) => {
+		machine.start_game();
+	});
+
 	/* should move all the things on resize */
 	window.addEventListener('resize', (e) => {
+		if (machine.state === STATE_IDLE) return;
 		const h = table.offsetHeight/2;
 		const w = table.offsetWidth/2;
 		for (let i = 0; i < shads.player.length; ++i) {
@@ -170,5 +175,5 @@ function init() {
 		//cards.stadium.mv(w-3.5*CARD_SPAN, h-125);
 	});
 
-	machine.start_game();
+	//machine.start_game();
 }

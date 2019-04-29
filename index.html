@@ -18,22 +18,22 @@
 	</head>
 	<body onload='init()'>
 		<div id='wrapper'>
-			<div id='table'>
+			<div id='table' class='empty'>
 			</div>
 		</div>
 		<div id='hand'>
 		</div>
 		<div id='pass-div'>
-			<span id='pass'>END TURN</span>
+			<span id='pass' class='hidden'>END TURN</span>
 		</div>
-		<div class='shell' id='p1-shell'>
+		<div class='shell hidden' id='p1-shell'>
 			48
 		</div>
-		<div id='you'>YOU</div>
-		<div class='shell' id='p2-shell'>
+		<div id='you' class='hidden'>YOU</div>
+		<div class='shell hidden' id='p2-shell'>
 			48
 		</div>
-		<div id='bob'>BOB</div>
+		<div id='bob' class='hidden'>BOB</div>
 		<div id='preview'>
 		</div>
 		<div id='drops'>
@@ -47,6 +47,11 @@
 			<div class='drop' data-side='1' data-card='1'><img src='img/drop.png'><span>-3</span></div>
 			<div class='drop' data-side='1' data-card='2'><img src='img/drop.png'><span>-3</span></div>
 			<div class='drop' data-side='1' data-card='3'><img src='img/drop.png'><span>-3</span></div>
+		</div>
+		<div class='screen' id='start'>
+			<div id='logo'><img src='img/logo.png'></div>
+			<div id='game-info' class='narrative'>A wild angry shark appears. He holds a deck of <i>ShellShark</i> - Trading Card Game about denizens of the sea. Looks like he wanna fight. What will you do?</div>
+			<span id='start-btn'>Play a game!</span>
 		</div>
 	</body>
 </html>
