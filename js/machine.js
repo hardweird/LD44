@@ -123,6 +123,8 @@ class Machine {
 	_fight(t) {
 		// TODO only one beast per turn, man!
 		let ord = t === PT ? ['player', 'opponent'] : ['opponent', 'player'];
+		let delay = 0;
+		let that = this;
 
 		for (let o = 0; o < ord.length; ++o) {
 			let atkr = ord[o];
@@ -159,60 +161,85 @@ class Machine {
 					}
 				}
 			}
-			console.log(log);
+			console.log(this._log_optimize(log));
+			let opt_log = this._log_optimize(log);
 			// TODO animate log
-			animator.fight(log);
+			delay += animator.fight(atkr, dfnr, opt_log);
 			// apply damage
-			for (let i = 0; i < log.length; ++i) {
-				if (log[i].d === -1) {
-					hp[dfnr] -= log[i].p;
-				} else {
-					cards[dfnr].field[log[i].d].hp -= log[i].p;
+			setTimeout(() => {
+				console.log(`fight, ${atkr}, delay: ${delay}`);
+				for (let i = 0; i < opt_log.length; ++i) {
+					if (opt_log[i].d === -1) {
+						hp[dfnr] -= opt_log[i].p;
+					} else {
+						cards[dfnr].field[opt_log[i].d].hp -= opt_log[i].p;
+					}
 				}
-			}
-			// clean up
-			for (let i = 0; i < cards[dfnr].field.length; ++i) {
-				let card = cards[dfnr].field[i];
-				if (!card) continue;
-				if (card.hp <= 0) {
-					// TODO animation
-					card.despawn();
-					cards[dfnr].field[i] = null;
-					cards[dfnr].pile.push(card);
+				// clean up
+				for (let i = 0; i < cards[dfnr].field.length; ++i) {
+					let card = cards[dfnr].field[i];
+					if (!card) continue;
+					if (card.hp <= 0) {
+						// TODO animation
+						card.despawn();
+						cards[dfnr].field[i] = null;
+						cards[dfnr].pile.push(card);
+					}
 				}
-			}
-			this._update();
+				that._update();
+			}, delay);
 		}
 
-		if (t === PT) {
-			this.state = STATE_OPP_TURN;
-			this._opponent_turn_start();
-		} else {
-			this.state = STATE_PLAYER_TURN;
-			this._player_turn_start();
-		}
+		setTimeout(() => {
+			console.log(`turn over, delay: ${delay}`);
+			if (t === PT) {
+				that.state = STATE_OPP_TURN;
+				that._opponent_turn_start();
+			} else {
+				that.state = STATE_PLAYER_TURN;
+				that._player_turn_start();
+			}
+		}, delay);
 	}
 	_log(attacker, defender, pow) {
 		return {a: attacker, d: defender, p: pow};
+	}
+	_log_optimize(log) {
+		let m = {};
+		let res = [];
+		for (let i = 0; i < log.length; ++i) {
+			m[log[i].d] = m[log[i].d] ? m[log[i].d] + log[i].p : log[i].p;
+		}
+		for (let i in m) {
+			res.push(this._log(0, parseInt(i, 10), m[i]));
+		}
+		return res;
 	}
 	_opponent_turn_start() {
 		// draw a card
 		cards.opponent.hand.push(cards.opponent.deck.pop());
 		// advance some creatures
 		let creatures = cards.opponent.hand.filter((c) => c.type === CARD_TYPE_CREATURE);
+		let delay = 0;
+		let that = this;
 		if (creatures.length > 0) {
 			creatures = _.shuffle(creatures);
 			for (let i in cards.opponent.field) {
 				if (cards.opponent.field[i] || (roll(6) === 1)) continue;
-				let beast = creatures.pop();
-				cards.opponent.field[i] = beast;
-				cards.opponent.hand = _.without(cards.opponent.hand, beast);
+				setTimeout(() => {
+					let beast = creatures.pop();
+					cards.opponent.field[i] = beast;
+					cards.opponent.hand = _.without(cards.opponent.hand, beast);
+					that._update();
+				}, delay);
+				delay += 500;
 			}
 		}
-		this._update();
 
-		this.state = STATE_FIGHT;
-		this._fight(OT);
+		setTimeout(() => {
+			that.state = STATE_FIGHT;
+			that._fight(OT);
+		}, delay);
 	}
 	_update() {
 		const h = table.offsetHeight/2;

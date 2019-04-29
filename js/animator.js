@@ -76,8 +76,22 @@ class Animator {
 		}
 	}
 
-	fight(log) {
-		//for (let i = 0; i < log.length; ++i) {
-		//}
+	fight(atkr, dfnr, log) {
+		let side = atkr === 'player' ? 1 : 0;
+		let that = this;
+		for (let i = 0; i < log.length; ++i) {
+			that.hurt(side, log[i].d, log[i].p);
+		}
+		return 1000;
+	}
+	hurt(side, card, pow) {
+		let drop;
+		if (card === -1) {
+			drop = document.querySelector(`.drop[data-player="${side}"]`);
+		} else {
+			drop = document.querySelector(`.drop[data-side="${side}"][data-card="${card}"]`);
+		}
+		drop.children[1].innerText = `${-pow}`;
+		drop.classList.add('ascend');
 	}
 }

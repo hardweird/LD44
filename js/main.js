@@ -115,29 +115,20 @@ function init() {
 	fill_decks();
 	deal();
 
-	machine.start_game();
-
-	/* spawn some cards for testing purposes */
-	/*{
-		// TODO rotate cards in hand
-		let hand = cards.player.hand;
-		let div = document.getElementById('hand');
-		for (let i in hand) {
-			hand[i].spawn(div, i*70, 0);
-		}
-	}*/
 	const h = table.offsetHeight/2;
 	const w = table.offsetWidth/2;
-	for (let i in cards.player.field) {
+	for (let i = 0; i < cards.player.field.length; ++i) {
 		const [x, y] = pfield_cpos(i);
 		shads.player.push(shadow(table, x, y, i, (shad) => {
 			machine.choose_shadow(shad);
 		}));
 		shads.opponent.push(shadow(table, x, h-200, i));
-		//cards.player.field[i].spawn(table, x, h-200);
-		//cards.opponent.field[i].spawn(table, x, h-50);
-		
+		document.querySelectorAll(`.drop[data-card="${i}"]`).forEach((e) => {
+			e.style.left = `${x+20}px`;
+		});
 	}
+	document.querySelectorAll('.drop[data-side="0"]').forEach((e) => { e.style.top = `${h}px`; });
+	document.querySelectorAll('.drop[data-side="1"]').forEach((e) => { e.style.top = `${h-110}px`; });
 	if (cards.player.deck.length > 0) {
 		cards.player._deck_back.spawn(table, w+1.5*CARD_SPAN, h+150);
 	}
@@ -150,18 +141,31 @@ function init() {
 		machine.pass();
 	});
 
+	document.querySelectorAll('.drop').forEach((e) => {
+		let cb = (e) => { e.target.classList.remove('ascend'); };
+		e.addEventListener('webkitAnimationEnd', cb);
+		e.addEventListener('animationend', cb);
+	});
+
 	/* should move all the things on resize */
 	window.addEventListener('resize', (e) => {
 		const h = table.offsetHeight/2;
 		const w = table.offsetWidth/2;
-		for (let i in shads.player) {
+		for (let i = 0; i < shads.player.length; ++i) {
 			const x = w-2*CARD_SPAN + i*CARD_SPAN;
 			shads.player[i].style.left = `${x}px`;
 			shads.player[i].style.top = `${h-50}px`;
 			shads.opponent[i].style.left = `${x}px`;
 			shads.opponent[i].style.top = `${h-200}px`;
+			document.querySelectorAll(`.drop[data-card="${i}"]`).forEach((e) => {
+				e.style.left = `${x+20}px`;
+			});
 		}
+		document.querySelectorAll('.drop[data-side="0"]').forEach((e) => { e.style.top = `${h}px`; });
+		document.querySelectorAll('.drop[data-side="1"]').forEach((e) => { e.style.top = `${h-110}px`; });
 		machine._update();
 		//cards.stadium.mv(w-3.5*CARD_SPAN, h-125);
 	});
+
+	machine.start_game();
 }
