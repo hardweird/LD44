@@ -135,3 +135,18 @@ body > h1 {
 .dark {
 	color: #01799e;
 }
+
+#preview .card-head {
+	top: 0.6rem;
+	font-size: 2rem;
+}
+
+#preview .pow, #preview .hp{
+	position: absolute;
+	top: 32rem;
+	font-size: 3rem;
+	color: #fff;
+}
+
+#preview .pow { left: 1.7rem; }
+#preview .hp { left: 23rem; }
