@@ -113,4 +113,11 @@ class Card {
 		if (!this.label_hp) return;
 		this.label_hp.innerText = `${this.hp}`;
 	}
+	get pow() {
+		if (this.type !== CARD_TYPE_CREATURE) {
+			console.warn(`'get pow()' of non-creature card (${this.type})`);
+			return 0;
+		}
+		return POW[this.name];
+	}
 }

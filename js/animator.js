@@ -75,4 +75,9 @@ class Animator {
 			field[i].elem.classList.remove('pulse', 'pulse-again', 'id');
 		}
 	}
+
+	fight(log) {
+		//for (let i = 0; i < log.length; ++i) {
+		//}
+	}
 }

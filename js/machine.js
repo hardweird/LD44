@@ -134,24 +134,40 @@ class Machine {
 
 				let offender = cards[atkr].field[i];
 				if (offender.name === 'crab') {
-					let defenders = [cards[dfnr].field[i-1], cards[dfnr].field[i+1]];
-					for (let d in defenders) {
-						if (!defenders[d]) continue;
-						defenders[d].hp -= POW[offender.name];
+					let def_i = [i-1, i+1];
+					for (let d = 0; d < def_i.length; ++d) {
+						if (!cards[dfnr].field[def_i[d]]) continue;
+						//defenders[d].hp -= POW[offender.name];
+						log.push(this._log(i, def_i[d], offender.pow));
 					}
 				} else {
 					let defender = cards[dfnr].field[i];
 					if (!defender) {
-						hp[dfnr] -= POW[offender.name]
+						//hp[dfnr] -= POW[offender.name]
+						log.push(this._log(i, -1, offender.pow));
 					} else {
-						defender.hp -= POW[offender.name];
+						//defender.hp -= POW[offender.name];
+						log.push(this._log(i, i, offender.pow));
 						if (offender.name === 'narwhal') {
-							hp[dfnr] -= POW[offender.name]/2 | 0;
+							//hp[dfnr] -= POW[offender.name]/2 | 0;
+							log.push(this._log(i, -1, offender.pow/2 | 0));
 						} else if (offender.name === 'shrimp' && defender.name === 'prawn'
 							|| offender.name === 'prawn' && defender.name === 'shrimp') {
-							defender.hp -= POW[offender.name];
+							//defender.hp -= POW[offender.name];
+							log.push(this._log(i, i, offender.pow));
 						}
 					}
+				}
+			}
+			console.log(log);
+			// TODO animate log
+			animator.fight(log);
+			// apply damage
+			for (let i = 0; i < log.length; ++i) {
+				if (log[i].d === -1) {
+					hp[dfnr] -= log[i].p;
+				} else {
+					cards[dfnr].field[log[i].d].hp -= log[i].p;
 				}
 			}
 			// clean up
@@ -176,8 +192,8 @@ class Machine {
 			this._player_turn_start();
 		}
 	}
-	_log(attacker, defender, kill) {
-		return {a: attacker, d: defender, k: kill};
+	_log(attacker, defender, pow) {
+		return {a: attacker, d: defender, p: pow};
 	}
 	_opponent_turn_start() {
 		// draw a card
