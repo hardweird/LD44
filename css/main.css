@@ -23,6 +23,11 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 	100% { opacity: 0; transform: translate(0, -5rem); }
 }
 
+@keyframes table-mv {
+	0% { transform: rotateX(30deg); }
+	100% { transform: rotateX(70deg); }
+}
+
 html {
 	font-size: 10px;
 }
@@ -43,7 +48,7 @@ body > h1 {
 }
 
 .hidden {
-	display: none;
+	display: none!important;
 }
 
 #table.empty * {
@@ -56,19 +61,31 @@ body > h1 {
 	top: 0;
 	min-width: 100vw;
 	min-height: 100vh;
-	background: #29464b66;
+	background: #29464baa;
 }
 
 .narrative {
 	width: 70vw;
 	min-width: 50rem;
-	margin-top: 10rem;
+	margin-top: 8rem;
 	margin-left: auto;
 	margin-right: auto;
 	font-size: 2.4rem;
 	color: #aaa;
 	line-height: 2.6rem;
 	/*text-decoration: italic;*/
+	text-shadow: 2px 2px 4px #000;
+}
+
+.screen h1 {
+	font-size: 4.8rem;
+	text-align: center;
+	color: #fff;
+	margin-top: 7rem;
+}
+
+.narrative p {
+	margin-top: 2.6rem;
 }
 
 .narrative i {
@@ -88,6 +105,12 @@ body > h1 {
 	text-shadow: 3px 3px 2px #aaa;
 }
 
+#bob-img {
+	display: block;
+	margin: -5rem auto;
+	width: 50rem;
+}
+
 #logo {
 	position: static;
 	margin-top: 1rem;
@@ -101,12 +124,15 @@ body > h1 {
 	min-height: 100vh;
 	width: 100vw;
 	height: 100vh;
-	background: #6aa;
+	background: #365c7e;
 	perspective: 300px;
 	overflow: hidden;
 }
 
 #table {
+	position: absolute;
+	left: 0;
+	top: 0;
 	width: 100vw;
 	height: 100vh;
 	min-width: 1180px;
@@ -117,6 +143,11 @@ body > h1 {
 	background-repeat: repeat;
 	transform-style: preserve-3d;
 	transform: rotateX(30deg);
+	transition: transform 1s;
+}
+
+#table.move {
+	transform: rotateX(70deg);
 }
 
 .ascend { animation: ascend 1s ease-out 1; }
@@ -261,11 +292,11 @@ body > h1 {
 	opacity: 0;
 }
 .drop[data-player="0"] {
-	left: 10rem;
+	left: 12rem;
 	top: 6rem;
 }
 .drop[data-player="1"] {
-	right: 10rem;
+	right: 12rem;
 	top: 6rem;
 }
 .drop img {

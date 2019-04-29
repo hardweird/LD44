@@ -17,7 +17,10 @@
 		<script src='js/main.js'></script>
 	</head>
 	<body onload='init()'>
+		<div id='bobs-seat'>
+		</div>
 		<div id='wrapper'>
+			<img id='bob-img' class='hidden' src='img/bob.png'>
 			<div id='table' class='empty'>
 			</div>
 		</div>
@@ -52,6 +55,22 @@
 			<div id='logo'><img src='img/logo.png'></div>
 			<div id='game-info' class='narrative'>A wild angry shark appears. He holds a deck of <i>ShellShark</i> - Trading Card Game about denizens of the sea. Looks like he wanna fight. What will you do?</div>
 			<span id='start-btn'>Play a game!</span>
+		</div>
+		<div class='screen hidden' id='lose'>
+			<h1>Game Over</h1>
+			<!--<div id='logo'><img src='img/logo.png'></div>-->
+			<div class='narrative'>
+				<p>You did your best but it seems Ms. Luck left you in the moment you needed her the most. The shark leaves you alone with impressive 0 shells in your packet. But hey, it's just a game!</p>
+				<p><i>Thank you for playing!</i></p>
+			</div>
+		</div>
+		<div class='screen hidden' id='win'>
+			<h1>The winner is you!</h1>
+			<!--<div id='logo'><img src='img/logo.png'></div>-->
+			<div class='narrative'>
+				<p>Whoever it was, he should be more cautious next time. Satisfied and proud of yourself, you leave the pub and swagger down the street. The night is young and you're going to sieze it!</p>
+				<p><i>Thank you for playing!</i></p>
+			</div>
 		</div>
 	</body>
 </html>

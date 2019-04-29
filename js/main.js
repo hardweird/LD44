@@ -150,6 +150,18 @@ function init() {
 		e.addEventListener('animationend', cb);
 	});
 
+	let to;
+	let bob = document.getElementById('bob-img');
+	bob.addEventListener('mouseover', (e) => {
+		to = setTimeout(() => {
+			table.classList.add('move');
+		}, 200);
+	});
+	bob.addEventListener('mouseout', (e) => {
+		clearTimeout(to);
+		table.classList.remove('move');
+	});
+
 	document.getElementById('start-btn').addEventListener('click', (e) => {
 		machine.start_game();
 	});
@@ -174,6 +186,7 @@ function init() {
 		machine._update();
 		//cards.stadium.mv(w-3.5*CARD_SPAN, h-125);
 	});
+
 
 	//machine.start_game();
 }

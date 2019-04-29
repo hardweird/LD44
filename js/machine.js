@@ -28,9 +28,18 @@ class Machine {
 		document.getElementById('pass').classList.remove('hidden');
 		table.classList.remove('empty');
 		document.getElementById('start').classList.add('hidden');
+		document.getElementById('bob-img').classList.remove('hidden');
 
 		this.state = STATE_PLAYER_TURN;
 		this._player_turn_start();
+	}
+	_game_over(win) {
+		this.state = STATE_IDLE;
+		document.getElementById('pass').classList.add('hidden');
+		table.classList.add('empty');
+
+		if (win) document.getElementById('win').classList.remove('hidden');
+		else document.getElementById('lose').classList.remove('hidden');
 	}
 	choose_card(card) {
 		if (this.card_hold === card) {
@@ -41,13 +50,13 @@ class Machine {
 		if (this.state !== STATE_PLAYER_TURN) return;
 		if (card.type === CARD_TYPE_CREATURE && this.turn_advanced) {
 			console.log('already advanced');
-			//this.card_hold = null;
-			//return;
+			this.card_hold = null;
+			return;
 		}
 		if ((card.type === CARD_TYPE_ACTION || card.type === CARD_TYPE_STADIUM)
 			&& this.turn_acted) {
 			console.log('already acted');
-			//return;
+			return;
 		}
 
 		if (card.type === CARD_TYPE_CREATURE) {
@@ -128,7 +137,6 @@ class Machine {
 		this._update();
 	}
 	_fight(t) {
-		// TODO only one beast per turn, man!
 		let ord = t === PT ? ['player', 'opponent'] : ['opponent', 'player'];
 		let delay = 0;
 		let that = this;
@@ -168,13 +176,13 @@ class Machine {
 					}
 				}
 			}
-			console.log(this._log_optimize(log));
+			//console.log(this._log_optimize(log));
 			let opt_log = this._log_optimize(log);
 			// TODO animate log
 			delay += animator.fight(atkr, dfnr, opt_log);
 			// apply damage
 			setTimeout(() => {
-				console.log(`fight, ${atkr}, delay: ${delay}`);
+				//console.log(`fight, ${atkr}, delay: ${delay}`);
 				for (let i = 0; i < opt_log.length; ++i) {
 					if (opt_log[i].d === -1) {
 						hp[dfnr] -= opt_log[i].p;
@@ -198,7 +206,8 @@ class Machine {
 		}
 
 		setTimeout(() => {
-			console.log(`turn over, delay: ${delay}`);
+			if (hp.player <= 0) this._game_over(false);
+			if (hp.opponent <= 0) this._game_over(true);
 			if (t === PT) {
 				that.state = STATE_OPP_TURN;
 				that._opponent_turn_start();
@@ -229,18 +238,64 @@ class Machine {
 		let creatures = cards.opponent.hand.filter((c) => c.type === CARD_TYPE_CREATURE);
 		let delay = 0;
 		let that = this;
-		if (creatures.length > 0) {
-			creatures = _.shuffle(creatures);
-			for (let i in cards.opponent.field) {
-				if (cards.opponent.field[i] || (roll(6) === 1)) continue;
-				setTimeout(() => {
-					let beast = creatures.pop();
-					cards.opponent.field[i] = beast;
-					cards.opponent.hand = _.without(cards.opponent.hand, beast);
-					that._update();
-				}, delay);
-				delay += 500;
+
+		let cs = [];
+		let gs = [];
+		let busy = [];
+		let field = cards.player.field;
+		for (let i = 0; i < field.length; ++i) {
+			if (field[i]) { cs.push(i); }
+			if (field[i-1] && field[i+1] && !field[i]) { gs.push(i); }
+			if (cards.opponent.field[i]) { busy.push(i); }
+		}
+		console.log(cs);
+		console.log(gs);
+
+		let strat = [];
+		for (let i = 0; i < STRAT_A.length; ++i) {
+			let [_p, cn, opt] = STRAT_A[i];
+			let card, fd = creatures.filter(c => c.name === cn);
+			if (fd.length === 0) continue; else card = fd[0];
+			if (opt === 'c' && cs.length > 0) {
+				strat.push([_p, opt, card]);
+				continue;
 			}
+			else if (opt === 'e' && cs.length < field.length) {
+				strat.push([_p, opt, card]);
+				continue;
+			}
+			else if (opt === 'g' && gs.length > 0) {
+				strat.push([_p, opt, card]);
+				continue;
+			}
+			else if (field.filter(c => c && c.name === opt).length > 0) {
+				strat.push([_p, opt, card]);
+			}
+		}
+		console.log(strat);
+
+		if (strat.length !== 0) {
+			let ss = _.sortBy(strat, a => a[0]);
+			let pr, opt, card, pos;
+			while (ss.length > 0) {
+				[pr, opt, card] = ss.pop();
+				if (opt === 'c') pos = _.sample(_.difference(cs, busy));
+				else if (opt === 'e') pos = _.sample(_.difference([0,1,2,3], cs, busy));
+				else if (opt === 'g') pos = _.sample(_.difference(gs, busy));
+				else {
+					//let os = creatures.filter(c => c.name === opt);
+					let os = _.find(cs, e => cards.player.field[e].name === opt);
+					pos = _.sample(_.difference(os, busy));
+				}
+				if (pos !== undefined) break;
+			}
+			console.log(pos);
+			setTimeout(() => {
+				cards.opponent.field[pos] = card;
+				cards.opponent.hand = _.without(cards.opponent.hand, card);
+				that._update();
+			}, delay);
+			delay += 500;
 		}
 
 		setTimeout(() => {
