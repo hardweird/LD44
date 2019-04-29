@@ -7,9 +7,11 @@ class Card {
 	constructor(type, name) {
 		this.type = type;
 		this.name = name || '';
-		this.elem = this.mk_elem();
+		this.label_pow = null;
+		this.label_hp = null;
 		this.spawned = false;
 		this.hp = 0;
+		this.elem = this.mk_elem();
 	}
 	mk_elem() {
 		let card = document.createElement('div');
@@ -31,7 +33,22 @@ class Card {
 			add_layer('img/card_pow.png');
 			add_layer('img/card_hp.png');
 			this.hp = HEALTH[this.name];
-			// TODO text layer for hp and pow
+
+			div = document.createElement('div');
+			let label_pow = document.createElement('span');
+			label_pow.classList.add('pow');
+			label_pow.innerText = `${POW[this.name]}`;
+			div.appendChild(label_pow);
+			card.appendChild(div);
+
+			div = document.createElement('div');
+			let label_hp = document.createElement('span');
+			label_hp.classList.add('hp');
+			label_hp.innerText = `${this.hp}`;
+			div.appendChild(label_hp);
+			card.appendChild(div);
+			this.label_hp = label_hp;
+			this.label_pow = label_pow;
 		} else if (this.type === CARD_TYPE_BACK) {
 			add_layer('img/card_back.png');
 		} else if (this.type === CARD_TYPE_ACTION) {
@@ -77,5 +94,9 @@ class Card {
 		} else {
 			this.elem.style.top = `${y}px`;
 		}
+	}
+	update_stats() {
+		if (!this.label_hp) return;
+		this.label_hp.innerText = `${this.hp}`;
 	}
 }

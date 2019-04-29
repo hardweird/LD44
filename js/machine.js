@@ -141,7 +141,7 @@ class Machine {
 					}
 				} else {
 					let defender = cards[dfnr].field[i];
-					if (defender === null) {
+					if (!defender) {
 						hp[dfnr] -= POW[offender.name]
 					} else {
 						defender.hp -= POW[offender.name];
@@ -154,10 +154,19 @@ class Machine {
 					}
 				}
 			}
+			// clean up
+			for (let i in cards[dfnr].field) {
+				let card = cards[dfnr].field[i];
+				if (!card) continue;
+				if (card.hp <= 0) {
+					// TODO animation
+					card.despawn();
+					cards[dfnr].field[i] = null;
+					cards[dfnr].pile.push(card);
+				}
+			}
+			this._update();
 		}
-
-		// TODO count
-		this._update();
 
 		if (t === PT) {
 			this.state = STATE_OPP_TURN;
@@ -196,6 +205,7 @@ class Machine {
 				cards.player.hand[i].spawn(hand);
 			}
 			cards.player.hand[i].mv(i*70, 0);
+			cards.player.hand[i].update_stats();
 		}
 		// field
 		for (let i = 0; i < cards.player.field.length; ++i) {
@@ -205,12 +215,14 @@ class Machine {
 					cards.player.field[i].spawn(table);
 				}
 				cards.player.field[i].mv(x, h-50);
+				cards.player.field[i].update_stats();
 			}
 			if (cards.opponent.field[i]) {
 				if (!cards.opponent.field[i].spawned) {
 					cards.opponent.field[i].spawn(table);
 				}
 				cards.opponent.field[i].mv(x, h-200);
+				cards.opponent.field[i].update_stats();
 			}
 		}
 		// decks & piles

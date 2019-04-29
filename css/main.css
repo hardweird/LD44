@@ -104,3 +104,19 @@ body > h1 {
 #pass-div > span:hover {
 	text-shadow: 2px 2px #333;
 }
+
+#hand .pow, #hand .hp {
+	position: absolute;
+	top: 14.5rem;
+	color: #fff;
+}
+#hand .pow { left: 1rem; }
+#hand .hp { left: 10.6rem; }
+
+#table .pow, #table .hp {
+	position: absolute;
+	top: 11.5rem;
+	color: #fff;
+}
+#table .pow { left: 0.8rem; }
+#table .hp { left: 8.5rem; }
