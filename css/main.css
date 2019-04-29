@@ -206,11 +206,28 @@ body > h1 {
 	position: absolute;
 	top: 4rem;
 	right: 31rem;
+	pointer-events: none;
 }
 
 #preview img {
 	position: absolute;
 	width: 275px;
+}
+
+.desc {
+	padding: 1rem;
+	font-size: 1.2rem;
+	line-height: 1.4rem;
+	position: absolute;
+	top: 24.3rem;
+	left: 2rem;
+	width: 21.5rem;
+	min-width: 21.5rem;
+	height: 8.3rem;
+	min-height: 8.3rem;
+	background: #29464baa;
+	color: #fff;
+	text-shadow: 2px 2px 4px #000;
 }
 
 #pass-div {

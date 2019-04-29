@@ -24,12 +24,6 @@ class Preview {
 		add_layer('face_shark');
 		add_layer('face_shrimp');
 		add_layer('face_fish');
-		add_layer('stad_narwhal');
-		add_layer('stad_crab');
-		add_layer('stad_prawn');
-		add_layer('stad_shark');
-		add_layer('stad_shrimp');
-		add_layer('stad_fish');
 
 		// TODO add text layer
 		// card header
@@ -42,6 +36,13 @@ class Preview {
 		card.appendChild(div);
 		this.header = span;
 		this.layers.header = div;
+
+		div = document.createElement('div');
+		div.classList.add('desc');
+		div.style.display = 'none';
+		card.appendChild(div);
+		this.desc = div;
+		this.layers.desc = div;
 
 		add_layer('hp');
 		add_layer('pow');
@@ -82,6 +83,8 @@ class Preview {
 			this.sl('header');
 			this.header.innerText = `${card.name}`;
 			this.header.classList.remove('dark');
+			this.sl('desc');
+			this.desc.innerText = this.describe(card.name);
 			this.sl('pow_text');
 			this.pow.innerText = `${POW[card.name]}`;
 			this.sl('hp_text');
@@ -92,13 +95,24 @@ class Preview {
 			this.sl('action_bg');
 			this.sl(`action_${card.name}`);
 			// TODO show text layer
+			this.sl('desc');
+			this.desc.innerText = this.describe(card.name);
 			this.sl('header');
 			this.header.innerText = `${card.name}`;
 			this.header.classList.add('dark');
-		} else if (card.type === CARD_TYPE_STADIUM) {
-			this.sl('action_bg');
-			this.sl(`stad_${card.name}`);
-			// TODO show text layer
+		}
+	}
+	describe(name) {
+		switch (name) {
+			case 'fish': return 'Yummie!';
+			case 'shrimp': return 'Kicks prawns twice.';
+			case 'prawn': return 'Smacks shrimps twice.';
+			case 'crab': return 'Bites diagonals.';
+			case 'shark': return 'An overgrown fish.';
+			case 'narwhal': return 'Underwater unicorn. Reaches through.';
+			case 'swap': return 'Swap or relocate your creatures.';
+			case 'retreat': return "Return your creature. Doesn't affect HP.";
+			default: return "Did the theme suck? You bet your ass!";
 		}
 	}
 }
