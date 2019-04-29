@@ -200,7 +200,7 @@ class Machine {
 		const w = table.offsetWidth/2;
 		// hand
 		let hand = document.getElementById('hand');
-		for (let i in cards.player.hand) {
+		for (let i = 0; i < cards.player.hand.length; ++i) {
 			if (!cards.player.hand[i].spawned) {
 				cards.player.hand[i].spawn(hand);
 			}
