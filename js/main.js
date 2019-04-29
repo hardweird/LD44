@@ -13,6 +13,7 @@ let hp = { player: 48, opponent: 48 };
 let hp_shell = {player: null, opponent: null};
 let table;
 let preview;
+let animator;
 
 function fill_decks() {
 	let pd = [], od = [];
@@ -109,6 +110,7 @@ function init() {
 	cards.opponent = new Set();
 	preview = new Preview(document.getElementById('preview'));
 	machine = new Machine();
+	animator = new Animator();
 
 	fill_decks();
 	deal();
@@ -131,7 +133,7 @@ function init() {
 		shads.player.push(shadow(table, x, y, i, (shad) => {
 			machine.choose_shadow(shad);
 		}));
-		shads.opponent.push(shadow(table, x, h-200));
+		shads.opponent.push(shadow(table, x, h-200, i));
 		//cards.player.field[i].spawn(table, x, h-200);
 		//cards.opponent.field[i].spawn(table, x, h-50);
 		

@@ -44,16 +44,17 @@ class Machine {
 		}
 
 		if (card.type === CARD_TYPE_CREATURE) {
-			// TODO animate shadows
+			animator.id_creatures();
 			this._hold(card);
 		}
 		if (card.type === CARD_TYPE_ACTION) {
 			if (card.name === 'swap') {
-				// TODO animate field
+				animator.id_swap_fst();
 				this.to_swap = -1;
 				this.state = STATE_SWAPPING;
 				this._hold(card);
 			} else if (card.name === 'retreat') {
+				animator.id_retreat();
 				this.state = STATE_RETREATING;
 				this._hold(card);
 			}
@@ -62,7 +63,7 @@ class Machine {
 	pick_card(card) {
 		if (this.state === STATE_SWAPPING) {
 			if (this.to_swap < 0) {
-				// TODO visuals
+				animator.id_swap_snd();
 				this.to_swap = cards.player.field.indexOf(card);
 				return;
 			}
@@ -269,6 +270,8 @@ class Machine {
 		this._update();
 	}
 	_unhold() {
+		animator.clear_shadows();
+		animator.clear_field();
 		this.card_hold.elem.classList.remove('hold');
 		this.card_hold = null;
 		this._update();
