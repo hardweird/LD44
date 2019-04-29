@@ -40,6 +40,7 @@ class Card {
 			label_pow.innerText = `${POW[this.name]}`;
 			div.appendChild(label_pow);
 			card.appendChild(div);
+			this.label_pow = label_pow;
 
 			div = document.createElement('div');
 			let label_hp = document.createElement('span');
@@ -48,12 +49,25 @@ class Card {
 			div.appendChild(label_hp);
 			card.appendChild(div);
 			this.label_hp = label_hp;
-			this.label_pow = label_pow;
+
+			div = document.createElement('div');
+			let span = document.createElement('span');
+			span.classList.add('card-head');
+			span.innerText = `${this.name}`;
+			div.appendChild(span);
+			card.appendChild(div);
 		} else if (this.type === CARD_TYPE_BACK) {
 			add_layer('img/card_back.png');
 		} else if (this.type === CARD_TYPE_ACTION) {
 			add_layer('img/card_action_bg.png');
 			add_layer(`img/card_action_${this.name}.png`);
+
+			div = document.createElement('div');
+			let span = document.createElement('span');
+			span.classList.add('card-head', 'dark');
+			span.innerText = `${this.name}`;
+			div.appendChild(span);
+			card.appendChild(div);
 		} else if (this.type === CARD_TYPE_STADIUM) {
 			add_layer('img/card_action_bg.png');
 			add_layer(`img/card_stad_${this.name}.png`);

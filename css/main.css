@@ -38,7 +38,10 @@ body > h1 {
 	height: 100vh;
 	min-width: 1180px;
 	min-height: 620px;
-	background: #66e;
+	background-color: #66e;
+	background-image: url("../img/table_tile.png");
+	background-size: 256px;
+	background-repeat: repeat;
 	transform-style: preserve-3d;
 	transform: rotateX(30deg);
 }
@@ -120,3 +123,15 @@ body > h1 {
 }
 #table .pow { left: 0.8rem; }
 #table .hp { left: 8.5rem; }
+
+.card-head {
+	position: absolute;
+	left: 1rem;
+	color: #fff;
+}
+#hand .card-head { top: 0.3rem; }
+#table .card-head { top: 0; }
+
+.dark {
+	color: #01799e;
+}
